@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistemas</title>
+
+  <!-- LINK DE ESTILOS CSS -->
+  <link rel="stylesheet" href="style/main.css">
+
+  <!-- LINK DE ESTILOS TAILWIND -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- LINK DE ESTILOS BOOTSTRAP -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <!-- LINK DE ICONS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+
+<body class="bg-gray-100 p-6">
+
+  <div class="container mx-auto">
+
+    <!-- DIV CARD NOMBRE DE SISTEMA -->
+    <div class="flex items-center justify-between bg-white mb-4 rounded-lg shadow-md px-4 py-3">
+      <h1 id="page-title" class="text-lg font-semibold text-gray-700 ">Inventario de Productos</h1>
+    </div>
+
+    <!-- DIV CARD PANEL CONTROL - TABLA -->
+    <div class="bg-white shadow-md rounded-lg p-4">
+
+      <!-- DIV CARD SOLO PANEL CONTROL -->
+      <div class="flex flex-col lg:flex-row justify-between items-stretch gap-4 border pb-4 mb-6 bg-white shadow-md rounded-lg p-4">
+
+        <!-- CONTENT IZQUIERDA -->
+        <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full lg:w-auto">
+
+          <!-- FILTRO DE BUSQUEDA -->
+          <input type="text" id="searchInput" placeholder="Filtro de Búsqueda..."
+          class="flex-grow min-w-[150px] border border-gray-300 rounded-md p-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 btn-custom"/>
+
+          <!-- BOTON CATEGORIA -->
+          <div class="dropdown whitespace-nowrap">
+            <button class="btn btn-light border dropdown-toggle px-4 py-2 text-sm w-full btn-custom" type="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-th-large me-2"></i> Categorías
+            </button>
+            <ul class="dropdown-menu text-sm w-full" id="categoryFilter">
+              <li><a class="dropdown-item" data-category="all"><i class="fa-solid fa-list me-2"></i> Todas</a></li>
+              <li><a class="dropdown-item" data-category="Electronica"><i class="fa-solid fa-house-user me-2"></i> Electronica</a></li>
+              <li><a class="dropdown-item" data-category="Componente"><i class="fa-solid fa-hand-holding-heart me-2"></i>Componente</a></li>
+            </ul>
+          </div>
+
+        </div>
+
+
+        <!-- CONTENT DERECHA -->
+        <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full lg:w-auto">
+
+          <!-- BOTÓN STOCK -->
+          <div class="dropdown w-full">
+            <button class="btn btn-light border dropdown-toggle px-4 py-2 text-sm w-full btn-custom" type="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-layer-group me-2"></i> Estado Stock
+            </button>
+            <ul class="dropdown-menu text-sm w-full" id="stockFilter">
+              <li><a class="dropdown-item" data-stock="all">
+                  <i class="fa-solid fa-list me-2"></i> Todos</a>
+              </li>
+              <li><a class="dropdown-item" data-stock="Disponible">
+                  <i class="fa-solid fa-check-circle me-2"></i> Disponible</a>
+              </li>
+              <li><a class="dropdown-item" data-stock="Limitado">
+                  <i class="fa-solid fa-exclamation-triangle me-2"></i>Limitado</a>
+              </li>
+              <li><a class="dropdown-item" data-stock="Agotado">
+                  <i class="fa-solid fa-times-circle me-2"></i> Agotado</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- BOTON ESTADO -->
+          <div class="dropdown w-full">
+            <button class="btn btn-light border dropdown-toggle px-4 py-2 text-sm w-full btn-custom" type="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-dot-circle me-2"></i> Ver Estado
+            </button>
+            <ul class="dropdown-menu text-sm w-full">
+              <li type="button"><a class="dropdown-item" onclick="fetchProducts('/active', 'Activos')">
+                  <i class="fas fa-toggle-on me-2"></i> Activos</a>
+              </li>
+              <li type="button"><a class="dropdown-item" onclick="fetchProducts('/inactive', 'Inactivos')">
+                  <i class="fas fa-toggle-off me-2"></i> Inactivos</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- BOTON REGISTRO DE PRODUCTO -->
+          <button id="openModal" class="btn btn-light border  py-2 text-sm w-full btn-custom" type="button">
+            <i class="fas fa-plus me-2"></i> Registrar
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- LISTADO TABLA -->
+      <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="min-w-full text-sm text-left text-gray-700">
+          <thead class="bg-gray-200 text-xs uppercase font-semibold">
+            <tr>
+              <th class="px-4 py-2">Imagen</th>
+              <th class="px-4 py-2">Nombre</th>
+              <th class="px-4 py-2">Categoría</th>
+              <th class="px-4 py-2">Descripción</th>
+              <th class="px-4 py-2">Precio</th>
+              <th class="px-4 py-2">Precio Final</th>
+              <th class="px-4 py-2">Stock</th>
+              <th class="px-4 py-2">Estado Stock</th>
+              <th class="px-4 py-2">Estado</th>
+            </tr>
+          </thead>
+          <tbody id="products-table-body">
+            <!-- Aquí se insertan los productos dinámicamente -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+  <!-- MODAL DE REGISTRO DE PRODUCTO (RESPONSIVO) -->
+<div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50 hidden px-4">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-screen-lg max-h-[90vh] overflow-y-auto">
+    <h2 class="text-lg font-semibold mb-4">Registrar Producto</h2>
+
+    <form>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg shadow-sm">
+        
+        <div class="mb-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-box ml-2 me-2"></i> Nombre del Producto
+          </label>
+          <input type="text" name="name"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
+            placeholder="Ej. Manzana" required>
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-tags ml-2 me-2"></i> Categoría
+          </label>
+          <input type="text" name="category"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
+            placeholder="Ej. Frutas" required>
+        </div>
+
+        <div class="mb-2 md:col-span-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-align-left ml-2 me-2"></i> Descripción
+          </label>
+          <textarea name="description"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
+            rows="3" placeholder="Describe el producto..."></textarea>
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-image ml-2 me-2"></i> Imagen
+          </label>
+          <input type="file" name="image"
+            accept="image/*"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-dollar-sign ml-2 me-2"></i> Precio Inicio
+          </label>
+          <input type="number" step="0.01" name="price"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-tags ml-2 me-2"></i> Precio Final
+          </label>
+          <input type="number" step="0.01" name="price_end"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-boxes ml-2 me-2"></i> Stock
+          </label>
+          <input type="number" name="stock"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-exclamation-circle ml-2 me-2"></i> Mensaje de Stock
+          </label>
+          <input type="text" name="message_stock"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
+            placeholder="Ej. ¡Últimas unidades!">
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex flex-col md:flex-row justify-end mt-4 space-y-2 md:space-y-0 md:space-x-2">
+        <button type="button" id="closeModal" class="px-4 py-2 bg-gray-500 text-white rounded">
+          Cancelar
+        </button>
+        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+    crossorigin="anonymous"></script>
+
+  <script>
+    // 🔧 URL base reutilizable
+    const BASE_API_URL = 'http://localhost:3000/api/products';
+  </script>
+
+  <script src="javascript/getProduct.js"></script>
+
+  <script src="javascript/postProduct.js"></script>
+
+</body>
+
+</html>
