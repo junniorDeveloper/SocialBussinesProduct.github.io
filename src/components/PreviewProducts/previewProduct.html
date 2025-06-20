@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<!-- Modal de Vista Previa de Producto -->
+<div id="previewModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50 hidden px-4">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-screen-lg max-h-[90vh] overflow-y-auto">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg shadow-sm border">
+            <!-- Imagen del producto -->
+            <div class="mb-2 flex items-center justify-center">
+                <img id="previewImage" src="" alt="Producto" class="w-full h-auto object-cover rounded-lg border" />
+            </div>
+
+           <!-- Detalles del producto como campos de entrada -->
+            <div class="space-y-2">
+                <div>
+                    <label class="font-semibold text-secondary text-sm"><i class="fas fa-box ml-2"></i> Nombre</label>
+                    <input type="text" id="previewName" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm" disabled/>
+                </div>
+                <div>
+                    <label class="font-semibold text-secondary text-sm"><i class="fas fa-tags ml-2"></i> Marca</label>
+                    <input type="text" id="previewBrand" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm" disabled/>
+                </div>
+                <div>
+                    <label class="font-semibold text-secondary text-sm"><i class="fas fa-tags ml-2"></i> Categoría</label>
+                    <input type="text" id="previewCategory" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm" disabled/>
+                </div>
+                <div>
+                    <label class="font-semibold text-secondary text-sm"><i class="fas fa-align-left ml-2"></i> Descripción</label>
+                    <textarea id="previewDescription" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm" rows="3" disabled></textarea>
+                </div>
+                <div>
+                    <label class="font-semibold text-secondary text-sm"><i class="fas fa-dollar-sign ml-2"></i> Precio Inicio</label>
+                    <input type="number" id="previewPrice" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm" disabled/>
+                </div>
+                <div>
+                    <label class="font-semibold text-secondary text-sm"><i class="fas fa-tags ml-2"></i> Precio Final</label>
+                    <input type="number" id="previewPriceEnd" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm" disabled/>
+                </div>
+                <div>
+                    <label class="font-semibold text-secondary text-sm"><i class="fas fa-boxes ml-2"></i> Stock</label>
+                    <input type="number" id="previewStock" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm" disabled/>
+                </div>
+                <div>
+                    <label class="font-semibold text-secondary text-sm"><i class="fas fa-exclamation-circle ml-2"></i> Estado Stock</label>
+                    <input type="text" id="previewStockMsg" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm" disabled/>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón Cerrar -->
+        <div class="flex justify-end mt-4">
+            <button onclick="closePreviewModal()" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                Cerrar
+            </button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

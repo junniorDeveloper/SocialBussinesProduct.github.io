@@ -7,7 +7,7 @@
   <title>Sistemas</title>
 
   <!-- LINK DE ESTILOS CSS -->
-  <link rel="stylesheet" href="style/main.css">
+  <link rel="stylesheet" href="src/style/main.css">
 
   <!-- LINK DE ESTILOS TAILWIND -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -116,13 +116,14 @@
             <tr>
               <th class="px-4 py-2">Imagen</th>
               <th class="px-4 py-2">Nombre</th>
+              <th class="px-4 py-2">Marca</th>
               <th class="px-4 py-2">Categoría</th>
               <th class="px-4 py-2">Descripción</th>
-              <th class="px-4 py-2">Precio</th>
+              <th class="px-4 py-2">Precio Regular</th>
               <th class="px-4 py-2">Precio Final</th>
               <th class="px-4 py-2">Stock</th>
               <th class="px-4 py-2">Estado Stock</th>
-              <th class="px-4 py-2">Estado</th>
+              <th class="px-4 py-2">Acciones</th>
             </tr>
           </thead>
           <tbody id="products-table-body">
@@ -134,102 +135,70 @@
     </div>
   </div>
 
-
-
-
-  <!-- MODAL DE REGISTRO DE PRODUCTO (RESPONSIVO) -->
-<div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50 hidden px-4">
-  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-screen-lg max-h-[90vh] overflow-y-auto">
-    <h2 class="text-lg font-semibold mb-4">Registrar Producto</h2>
-
-    <form>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg shadow-sm">
-        
-        <div class="mb-2">
-          <label class="form-label text-muted d-flex align-items-center mb-1">
-            <i class="fas fa-box ml-2 me-2"></i> Nombre del Producto
-          </label>
-          <input type="text" name="name"
-            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
-            placeholder="Ej. Manzana" required>
-        </div>
-
-        <div class="mb-2">
-          <label class="form-label text-muted d-flex align-items-center mb-1">
-            <i class="fas fa-tags ml-2 me-2"></i> Categoría
-          </label>
-          <input type="text" name="category"
-            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
-            placeholder="Ej. Frutas" required>
-        </div>
-
-        <div class="mb-2 md:col-span-2">
-          <label class="form-label text-muted d-flex align-items-center mb-1">
-            <i class="fas fa-align-left ml-2 me-2"></i> Descripción
-          </label>
-          <textarea name="description"
-            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
-            rows="3" placeholder="Describe el producto..."></textarea>
-        </div>
-
-        <div class="mb-2">
-          <label class="form-label text-muted d-flex align-items-center mb-1">
-            <i class="fas fa-image ml-2 me-2"></i> Imagen
-          </label>
-          <input type="file" name="image"
-            accept="image/*"
-            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
-        </div>
-
-        <div class="mb-2">
-          <label class="form-label text-muted d-flex align-items-center mb-1">
-            <i class="fas fa-dollar-sign ml-2 me-2"></i> Precio Inicio
-          </label>
-          <input type="number" step="0.01" name="price"
-            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
-        </div>
-
-        <div class="mb-2">
-          <label class="form-label text-muted d-flex align-items-center mb-1">
-            <i class="fas fa-tags ml-2 me-2"></i> Precio Final
-          </label>
-          <input type="number" step="0.01" name="price_end"
-            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
-        </div>
-
-        <div class="mb-2">
-          <label class="form-label text-muted d-flex align-items-center mb-1">
-            <i class="fas fa-boxes ml-2 me-2"></i> Stock
-          </label>
-          <input type="number" name="stock"
-            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
-        </div>
-
-        <div class="mb-2">
-          <label class="form-label text-muted d-flex align-items-center mb-1">
-            <i class="fas fa-exclamation-circle ml-2 me-2"></i> Mensaje de Stock
-          </label>
-          <input type="text" name="message_stock"
-            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
-            placeholder="Ej. ¡Últimas unidades!">
-        </div>
-      </div>
-
-      <!-- Botones -->
-      <div class="flex flex-col md:flex-row justify-end mt-4 space-y-2 md:space-y-0 md:space-x-2">
-        <button type="button" id="closeModal" class="px-4 py-2 bg-gray-500 text-white rounded">
-          Cancelar
-        </button>
-        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
-          Guardar
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
-
   
+  <!-- MODAL CREAR PRODUCTO - RUTA src/components/CreateProducts/postProduct.html -->
+  <div id="ModalCrear"></div>
 
+  <script>
+    fetch("src/components/CreateProducts/postProduct.html")
+      .then(res => res.text())
+      .then(html => {
+        const container = document.getElementById("ModalCrear");
+        container.innerHTML = html;
+
+        // Evalúa los <script> del contenido cargado
+        const scripts = container.querySelectorAll("script");
+        scripts.forEach(script => {
+          const newScript = document.createElement("script");
+          newScript.textContent = script.textContent;
+          document.body.appendChild(newScript);
+        });
+      });
+  </script>
+
+
+  <!-- MODAL VISTAPREVIA - RUTA src/components/PreviewProducts/previewProduct.html -->
+  <div id="previewModalContainer"></div>
+
+  <script>
+    async function showPreviewModal(index) {
+      const product = allProducts[index];
+
+      const response = await fetch('src/components/PreviewProducts/previewProduct.html');
+      const html = await response.text();
+      document.getElementById('previewModalContainer').innerHTML = html;
+
+       // Setea los datos del producto en los campos de entrada
+        document.getElementById('previewImage').src =
+            `https://qiziyaqqptpwcarbywsx.supabase.co/storage/v1/object/public/imagenes/products/${product.image}`;
+        document.getElementById('previewName').value = product.name;
+        document.getElementById('previewBrand').value = product.brand;
+        document.getElementById('previewCategory').value = product.category;
+        document.getElementById('previewDescription').value = product.description;
+        document.getElementById('previewPrice').value = product.price.toFixed(2);
+        document.getElementById('previewPriceEnd').value = product.price_end.toFixed(2);
+        document.getElementById('previewStock').value = product.stock;
+        document.getElementById('previewStockMsg').value = product.message_stock;
+        // Muestra el modal
+        document.getElementById('previewModal').classList.remove('hidden');
+    }
+
+    function closePreviewModal() {
+        document.getElementById('previewModal').classList.add('hidden');
+    }
+  </script>
+
+
+
+
+  <!-- API -->
+  <script>
+    const BASE_API_URL = 'https://social-bussines-back.vercel.app/api/products';
+  </script>
+
+  <script src="src/components/ListProducts/getProduct.js"></script>
+
+  <!-- SCRIPT DE BOOTSTRAP -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
     integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
     crossorigin="anonymous"></script>
@@ -237,15 +206,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
     integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
     crossorigin="anonymous"></script>
-
-  <script>
-    // 🔧 URL base reutilizable
-    const BASE_API_URL = 'http://localhost:3000/api/products';
-  </script>
-
-  <script src="javascript/getProduct.js"></script>
-
-  <script src="javascript/postProduct.js"></script>
 
 </body>
 

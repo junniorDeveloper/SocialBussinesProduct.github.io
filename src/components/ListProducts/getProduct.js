@@ -29,13 +29,26 @@ function renderProducts(products) {
             <img src="https://qiziyaqqptpwcarbywsx.supabase.co/storage/v1/object/public/imagenes/products/${product.image}" alt="${product.name}" class="w-16 h-16 object-cover rounded" />
           </td>
           <td class="px-4 py-2">${product.name}</td>
+          <td class="px-4 py-2">${product.brand}</td>
           <td class="px-4 py-2">${product.category}</td>
           <td class="px-4 py-2 truncate-text">${product.description}</td>
           <td class="px-4 py-2">S/ ${product.price.toFixed(2)}</td>
           <td class="px-4 py-2">S/ ${product.price_end.toFixed(2)}</td>
           <td class="px-4 py-2">${product.stock}</td>
           <td class="px-4 py-2">${product.message_stock}</td>
-          <td class="px-4 py-2">${product.state}</td>
+          <td class="px-4 py-2">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-danger btn-sm me-2" title="Eliminar">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm me-2" title="Vista Previa" onclick="showPreviewModal(${allProducts.indexOf(product)})">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button type="button" class="btn btn-primary btn-sm me-2" title="Editar">
+                <i class="fas fa-edit"></i>
+              </button>
+            </div>
+          </td>
         `;
 
         tableBody.appendChild(row);
@@ -74,6 +87,7 @@ function applyFilters() {
 
   const filtered = allProducts.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchInput) ||
+                          product.brand.toLowerCase().includes(searchInput)||
                           product.category.toLowerCase().includes(searchInput);
 
     const matchesCategory = selectedCategory === 'all' ||

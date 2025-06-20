@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<!-- MODAL DE REGISTRO DE PRODUCTO (RESPONSIVO) -->
+<div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50 hidden px-4">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-screen-lg max-h-[90vh] overflow-y-auto">
+    <h2 class="text-lg font-semibold mb-4">Registrar Producto</h2>
+
+    <form>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg shadow-sm">
+        
+        <div class="mb-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-box ml-2 me-2"></i> Nombre del Producto
+          </label>
+          <input type="text" name="name"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
+            placeholder="Ej. Manzana" required>
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-tags ml-2 me-2"></i> Categoría
+          </label>
+          <input type="text" name="category"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
+            placeholder="Ej. Frutas" required>
+        </div>
+
+        <div class="mb-2 md:col-span-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-align-left ml-2 me-2"></i> Descripción
+          </label>
+          <textarea name="description"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
+            rows="3" placeholder="Describe el producto..."></textarea>
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-image ml-2 me-2"></i> Imagen
+          </label>
+          <input type="file" name="image"
+            accept="image/*"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-dollar-sign ml-2 me-2"></i> Precio Inicio
+          </label>
+          <input type="number" step="0.01" name="price"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-tags ml-2 me-2"></i> Precio Final
+          </label>
+          <input type="number" step="0.01" name="price_end"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-boxes ml-2 me-2"></i> Stock
+          </label>
+          <input type="number" name="stock"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label text-muted d-flex align-items-center mb-1">
+            <i class="fas fa-exclamation-circle ml-2 me-2"></i> Mensaje de Stock
+          </label>
+          <input type="text" name="message_stock"
+            class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
+            placeholder="Ej. ¡Últimas unidades!">
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex flex-col md:flex-row justify-end mt-4 space-y-2 md:space-y-0 md:space-x-2">
+        <button type="button" id="closeModal" class="px-4 py-2 bg-gray-500 text-white rounded">
+          Cancelar
+        </button>
+        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Este script corre al insertar el componente dinámicamente
+  document.getElementById('openModal').addEventListener('click', function () {
+    document.getElementById('modal').classList.remove('hidden');
+  });
+
+  document.getElementById('closeModal').addEventListener('click', function () {
+    document.getElementById('modal').classList.add('hidden');
+  });
+</script>
+
+</body>
+</html>
