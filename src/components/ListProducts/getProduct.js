@@ -25,35 +25,39 @@ function renderProducts(products) {
         row.classList.add('border-b');
 
         row.innerHTML = `
-          <td class="px-4 py-2">
+          <td class="px-4 py-2  bg-white sticky left-0 z-10">
             <img src="https://qiziyaqqptpwcarbywsx.supabase.co/storage/v1/object/public/imagenes/products/${product.image}" alt="${product.name}" class="w-16 h-16 object-cover rounded" />
           </td>
-          <td class="px-4 py-2">${product.name}</td>
+          <td class="px-4 py-2 ">${product.name}</td>
           <td class="px-4 py-2">${product.brand}</td>
           <td class="px-4 py-2">${product.category}</td>
-          <td class="px-4 py-2 truncate-text">${product.description}</td>
-          <td class="px-4 py-2">S/ ${product.price.toFixed(2)}</td>
+          <td class="px-4 py-2 hidden md:table-cell">S/ ${product.price.toFixed(2)}</td>
           <td class="px-4 py-2">S/ ${product.price_end.toFixed(2)}</td>
           <td class="px-4 py-2">${product.stock}</td>
-          <td class="px-4 py-2">${product.message_stock}</td>
+          <td class="px-4 py-2 hidden  md:table-cell">${product.message_stock}</td>
           <td class="px-4 py-2">
             <div class="btn-group" role="group">
-              <button type="button" class="btn btn-danger btn-sm me-2" title="Eliminar">
-                <i class="fas fa-trash-alt"></i>
-              </button>
+               ${product.state === 'A'
+                  ? `<button type="button" class="btn btn-danger btn-sm me-2" title="Eliminar" onclick="setProductState(${product.id_product}, 'inactive')">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>`
+                  : `<button type="button" class="btn btn-success btn-sm me-2" title="Restaurar" onclick="setProductState(${product.id_product}, 'active')">
+                        <i class="fas fa-undo-alt"></i>
+                    </button>`
+                }
               <button type="button" class="btn btn-secondary btn-sm me-2" title="Vista Previa" onclick="showPreviewModal(${allProducts.indexOf(product)})">
                 <i class="fas fa-eye"></i>
               </button>
               <button type="button" class="btn btn-primary btn-sm me-2" title="Editar">
-                <i class="fas fa-edit"></i>
+                  <i class="fas fa-edit"></i>
               </button>
             </div>
           </td>
         `;
-
         tableBody.appendChild(row);
     });
 }
+
 
 
 // Variables globales para filtros
@@ -86,9 +90,9 @@ function applyFilters() {
   const searchInput = document.getElementById('searchInput').value.toLowerCase();
 
   const filtered = allProducts.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchInput) ||
-                          product.brand.toLowerCase().includes(searchInput)||
-                          product.category.toLowerCase().includes(searchInput);
+    const matchesSearch = (product.name?.toLowerCase().includes(searchInput) || false) ||
+                          (product.category?.toLowerCase().includes(searchInput) || false) ||
+                          (product.brand?.toLowerCase().includes(searchInput) || false);
 
     const matchesCategory = selectedCategory === 'all' ||
                             product.category.toLowerCase() === selectedCategory.toLowerCase();
@@ -101,6 +105,23 @@ function applyFilters() {
 
   renderProducts(filtered);
 }
+
+// FUNCION PARA ELIMINAR Y RESTAURAR
+async function setProductState(id_product, action) {
+    try {
+        const response = await fetch(`${BASE_API_URL}/${id_product}/${action}`, {
+            method: 'PUT',
+        });
+
+        if (!response.ok) throw new Error(`No se pudo ${action === 'inactive' ? 'eliminar' : 'restaurar'} el producto`);
+
+        await fetchProducts(); // recarga la lista actual
+    } catch (error) {
+        console.error(error);
+        alert('Error al actualizar el estado del producto');
+    }
+}
+
 
 
 

@@ -27,7 +27,7 @@
 
     <!-- DIV CARD NOMBRE DE SISTEMA -->
     <div class="flex items-center justify-between bg-white mb-4 rounded-lg shadow-md px-4 py-3">
-      <h1 id="page-title" class="text-lg font-semibold text-gray-700 ">Inventario de Productos</h1>
+      <h1 id="page-title" class="font-semibold text-gray-700  sm:text-sm md:text-lg">Inventario de Productos</h1>
     </div>
 
     <!-- DIV CARD PANEL CONTROL - TABLA -->
@@ -51,8 +51,16 @@
             </button>
             <ul class="dropdown-menu text-sm w-full" id="categoryFilter">
               <li><a class="dropdown-item" data-category="all"><i class="fa-solid fa-list me-2"></i> Todas</a></li>
-              <li><a class="dropdown-item" data-category="Electronica"><i class="fa-solid fa-house-user me-2"></i> Electronica</a></li>
-              <li><a class="dropdown-item" data-category="Componente"><i class="fa-solid fa-hand-holding-heart me-2"></i>Componente</a></li>
+              <li><a class="dropdown-item" data-category="exploradoras"><i class="fa-solid fa-lightbulb me-2"></i> Exploradoras</a></li>
+              <li><a class="dropdown-item" data-category="focos"><i class="fa-solid fa-sun me-2"></i> Focos</a></li>
+              <li><a class="dropdown-item" data-category="herrajes"><i class="fa-solid fa-tools me-2"></i> Herrajes</a></li>
+              <li><a class="dropdown-item" data-category="indumentaria"><i class="fa-solid fa-tshirt me-2"></i> Indumentaria</a></li>
+              <li><a class="dropdown-item" data-category="cascos"><i class="fa-solid fa-hard-hat me-2"></i> Cascos</a></li>
+              <li><a class="dropdown-item" data-category="accesorios"><i class="fa-solid fa-puzzle-piece me-2"></i> Accesorios</a></li>
+              <li><a class="dropdown-item" data-category="inoxidable"><i class="fa-solid fa-industry me-2"></i> Inoxidables</a></li>
+              <li><a class="dropdown-item" data-category="espejos"><i class="fa-solid fa-eye me-2"></i> Espejos</a></li>
+              <li><a class="dropdown-item" data-category="protectores"><i class="fa-solid fa-shield-alt me-2"></i> Protectores</a></li>
+              <li><a class="dropdown-item" data-category="stickers"><i class="fa-solid fa-sticky-note me-2"></i> Stickers</a></li>
             </ul>
           </div>
 
@@ -114,15 +122,14 @@
         <table class="min-w-full text-sm text-left text-gray-700">
           <thead class="bg-gray-200 text-xs uppercase font-semibold">
             <tr>
-              <th class="px-4 py-2">Imagen</th>
+              <th class="px-4 py-2  bg-gray-200 sticky left-0 z-10">Imagen</th>
               <th class="px-4 py-2">Nombre</th>
               <th class="px-4 py-2">Marca</th>
               <th class="px-4 py-2">Categoría</th>
-              <th class="px-4 py-2">Descripción</th>
-              <th class="px-4 py-2">Precio Regular</th>
+              <th class="px-4 py-2 hidden md:table-cell">Precio Regular</th>
               <th class="px-4 py-2">Precio Final</th>
-              <th class="px-4 py-2">Stock</th>
-              <th class="px-4 py-2">Estado Stock</th>
+              <th class="px-4 py-2 ">Stock</th>
+              <th class="px-4 py-2 hidden md:table-cell">Mensaje</th>
               <th class="px-4 py-2">Acciones</th>
             </tr>
           </thead>
@@ -134,6 +141,13 @@
 
     </div>
   </div>
+
+  <!-- API -->
+  <script>
+    const BASE_API_URL = 'https://social-bussines-back.vercel.app/api/products';
+  </script>
+
+  <script src="src/components/ListProducts/getProduct.js"></script>
 
   
   <!-- MODAL CREAR PRODUCTO - RUTA src/components/CreateProducts/postProduct.html -->
@@ -190,14 +204,7 @@
 
 
 
-
-  <!-- API -->
-  <script>
-    const BASE_API_URL = 'https://social-bussines-back.vercel.app/api/products';
-  </script>
-
-  <script src="src/components/ListProducts/getProduct.js"></script>
-
+  
   <!-- SCRIPT DE BOOTSTRAP -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
     integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
