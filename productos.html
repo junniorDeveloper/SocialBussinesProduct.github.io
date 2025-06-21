@@ -19,6 +19,14 @@
   <!-- LINK DE ICONS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
+  <style>
+    .table-with{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+    }
+  </style>
 </head>
 
 <body class="bg-gray-100 p-6">
@@ -123,13 +131,13 @@
           <thead class="bg-gray-200 text-xs uppercase font-semibold">
             <tr>
               <th class="px-4 py-2  bg-gray-200 sticky left-0 z-10">Imagen</th>
-              <th class="px-4 py-2">Nombre</th>
-              <th class="px-4 py-2">Marca</th>
-              <th class="px-4 py-2">Categoría</th>
-              <th class="px-4 py-2 hidden md:table-cell">Precio Regular</th>
-              <th class="px-4 py-2">Precio Final</th>
-              <th class="px-4 py-2 ">Stock</th>
-              <th class="px-4 py-2 hidden md:table-cell">Mensaje</th>
+              <th class="px-4 py-2 table-with">Nombre</th>
+              <th class="px-4 py-2 table-with">Marca</th>
+              <th class="px-4 py-2 table-with">Categoría</th>
+              <th class="px-4 py-2 table-with hidden md:table-cell">Precio Regular</th>
+              <th class="px-4 py-2 table-with w-48">Precio Final</th>
+              <th class="px-4 py-2 table-with">Stock</th>
+              <th class="px-4 py-2 table-with hidden md:table-cell">Mensaje</th>
               <th class="px-4 py-2">Acciones</th>
             </tr>
           </thead>
@@ -147,6 +155,7 @@
     const BASE_API_URL = 'https://social-bussines-back.vercel.app/api/products';
   </script>
 
+  <!-- LISTADO DE PRODUCTOS -->
   <script src="src/components/ListProducts/getProduct.js"></script>
 
   
@@ -158,6 +167,27 @@
       .then(res => res.text())
       .then(html => {
         const container = document.getElementById("ModalCrear");
+        container.innerHTML = html;
+
+        // Evalúa los <script> del contenido cargado
+        const scripts = container.querySelectorAll("script");
+        scripts.forEach(script => {
+          const newScript = document.createElement("script");
+          newScript.textContent = script.textContent;
+          document.body.appendChild(newScript);
+        });
+      });
+  </script>
+
+    
+  <!-- MODAL EDITAR PRODUCTO - RUTA src/components/EditProducts/putProduct.html -->
+  <div id="ModalEditar"></div>
+
+  <script>
+    fetch("src/components/EditProducts/putProduct.html")
+      .then(res => res.text())
+      .then(html => {
+        const container = document.getElementById("ModalEditar");
         container.innerHTML = html;
 
         // Evalúa los <script> del contenido cargado
@@ -201,7 +231,6 @@
         document.getElementById('previewModal').classList.add('hidden');
     }
   </script>
-
 
 
   

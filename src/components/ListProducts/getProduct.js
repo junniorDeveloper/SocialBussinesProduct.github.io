@@ -8,7 +8,7 @@ async function fetchProducts(endpoint = '/active', tipo = 'Activos') {
         const products = await response.json();
         allProducts = products; // Guardamos productos globalmente
 
-        document.getElementById('page-title').textContent = `Lista de Productos ${tipo}`;
+        document.getElementById('page-title').textContent = `Inventario de Productos ${tipo}`;
         renderProducts(allProducts); // Renderizamos al inicio
     } catch (error) {
         console.error('Error al obtener los productos:', error);
@@ -28,13 +28,13 @@ function renderProducts(products) {
           <td class="px-4 py-2  bg-white sticky left-0 z-10">
             <img src="https://qiziyaqqptpwcarbywsx.supabase.co/storage/v1/object/public/imagenes/products/${product.image}" alt="${product.name}" class="w-16 h-16 object-cover rounded" />
           </td>
-          <td class="px-4 py-2 ">${product.name}</td>
-          <td class="px-4 py-2">${product.brand}</td>
-          <td class="px-4 py-2">${product.category}</td>
-          <td class="px-4 py-2 hidden md:table-cell">S/ ${product.price.toFixed(2)}</td>
-          <td class="px-4 py-2">S/ ${product.price_end.toFixed(2)}</td>
-          <td class="px-4 py-2">${product.stock}</td>
-          <td class="px-4 py-2 hidden  md:table-cell">${product.message_stock}</td>
+          <td class="px-4 py-2 table-with">${product.name}</td>
+          <td class="px-4 py-2 table-with">${product.brand}</td>
+          <td class="px-4 py-2 table-with">${product.category}</td>
+          <td class="px-4 py-2 table-with hidden md:table-cell">S/ ${product.price.toFixed(2)}</td>
+          <td class="px-4 py-2 table-with">S/ ${product.price_end.toFixed(2)}</td>
+          <td class="px-4 py-2 table-with">${product.stock}</td>
+          <td class="px-4 py-2 table-with hidden  md:table-cell">${product.message_stock}</td>
           <td class="px-4 py-2">
             <div class="btn-group" role="group">
                ${product.state === 'A'
@@ -48,9 +48,10 @@ function renderProducts(products) {
               <button type="button" class="btn btn-secondary btn-sm me-2" title="Vista Previa" onclick="showPreviewModal(${allProducts.indexOf(product)})">
                 <i class="fas fa-eye"></i>
               </button>
-              <button type="button" class="btn btn-primary btn-sm me-2" title="Editar">
-                  <i class="fas fa-edit"></i>
+              <button type="button" class="btn btn-primary btn-sm me-2" title="Editar" onclick="showEditModal(${allProducts.indexOf(product)})">
+                <i class="fas fa-edit"></i>
               </button>
+
             </div>
           </td>
         `;
