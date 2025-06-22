@@ -31,6 +31,7 @@ function renderProducts(products) {
           <td class="px-4 py-2 table-with">${product.name}</td>
           <td class="px-4 py-2 table-with">${product.brand}</td>
           <td class="px-4 py-2 table-with">${product.category}</td>
+          <td class="px-4 py-2 table-with">${product.section}</td>
           <td class="px-4 py-2 table-with hidden md:table-cell">S/ ${product.price.toFixed(2)}</td>
           <td class="px-4 py-2 table-with">S/ ${product.price_end.toFixed(2)}</td>
           <td class="px-4 py-2 table-with">${product.stock}</td>
@@ -64,6 +65,7 @@ function renderProducts(products) {
 // Variables globales para filtros
 let selectedCategory = 'all';
 let selectedStock = 'all';
+let selectedSection = 'all';
 
 // Evento de búsqueda por texto
 document.getElementById('searchInput').addEventListener('input', function () {
@@ -86,6 +88,14 @@ document.getElementById('stockFilter').addEventListener('click', function (e) {
   }
 });
 
+// Evento de selección de estado de stock
+document.getElementById('sectionFilter').addEventListener('click', function (e) {
+  if (e.target && e.target.matches('a.dropdown-item')) {
+    selectedSection = e.target.getAttribute('data-section');
+    applyFilters();
+  }
+});
+
 // Función para aplicar todos los filtros combinados
 function applyFilters() {
   const searchInput = document.getElementById('searchInput').value.toLowerCase();
@@ -101,7 +111,10 @@ function applyFilters() {
     const matchesStock = selectedStock === 'all' ||
                          product.message_stock.toLowerCase() === selectedStock.toLowerCase();
 
-    return matchesSearch && matchesCategory && matchesStock;
+    const matchesSection = selectedSection === 'all' ||
+                         product.section.toLowerCase() === selectedSection.toLowerCase();
+
+    return matchesSearch && matchesCategory && matchesStock && matchesSection;
   });
 
   renderProducts(filtered);

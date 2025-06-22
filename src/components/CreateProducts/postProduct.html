@@ -49,23 +49,40 @@
             class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required>
         </div>
 
-        <div class="mb-2">
-          <label class="form-label text-muted d-flex align-items-center mb-1">
-            <i class="fas fa-tags ml-2 me-2"></i> Categoría
-          </label>
-          <select name="category" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required>
-            <option value="" disabled selected>Selecciona una categoría</option>
-             <option value="exploradoras">Exploradoras</option>
-              <option value="focos">Focos</option>
-              <option value="herrajes">Herrajes</option>
-              <option value="indumentaria">Indumentaria</option>
-              <option value="cascos">Cascos</option>
-              <option value="accesorios">Accesorios</option>
-              <option value="inoxidable">Inoxidables</option>
-              <option value="espejos">Espejos</option>
-              <option value="protectores">Protectores</option>
-              <option value="stickers">Stickers</option>
-          </select>
+        <div class="mb-2 d-flex flex-column flex-md-row justify-content-between align-items-start">
+          <div class="w-100 w-md-50 me-md-2 mb-2 mb-md-0">
+              <label class="form-label text-muted d-flex align-items-center mb-1">
+                  <i class="fas fa-tags ml-2 me-2"></i> Categoría
+              </label>
+              <select name="category" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required>
+                  <option value="" disabled selected>Selecciona una categoría</option>
+                  <option value="exploradoras">Exploradoras</option>
+                  <option value="focos">Focos</option>
+                  <option value="herrajes">Herrajes</option>
+                  <option value="indumentaria">Indumentaria</option>
+                  <option value="cascos">Cascos</option>
+                  <option value="accesorios">Accesorios</option>
+                  <option value="inoxidable">Inoxidables</option>
+                  <option value="espejos">Espejos</option>
+                  <option value="protectores">Protectores</option>
+                  <option value="stickers">Stickers</option>
+              </select>
+          </div>
+
+          <div class="w-100 w-md-50 ms-md-2">
+              <label class="form-label text-muted d-flex align-items-center mb-1">
+                  <i class="fas fa-tags ml-2 me-2"></i> Secciones
+              </label>
+              <select name="section" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required>
+                  <option value="" disabled selected>Selecciona una opción</option>
+                  <option value="indefinido">Indefinido</option>
+                  <option value="destacado">Destacado</option>
+                  <option value="nuevos">Nuevos Ingresos</option>
+                  <option value="ofertas">Ofertas</option>
+                  <option value="temporada">Temporada</option>
+                  <option value="festividad">Festividad</option>
+              </select>
+          </div>
         </div>
 
         <div class="mb-2">

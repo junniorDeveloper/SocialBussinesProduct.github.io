@@ -78,6 +78,38 @@
         <!-- CONTENT DERECHA -->
         <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full lg:w-auto">
 
+
+          <!-- BOTON ESTADO -->
+          <div class="dropdown w-full">
+            <button class="btn btn-light border dropdown-toggle px-4 py-2 text-sm w-full btn-custom" type="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-dot-circle me-2"></i> Sección
+            </button>
+            <ul class="dropdown-menu text-sm w-full" id="sectionFilter">
+              <li type="button"><a class="dropdown-item" data-section="all">
+                <i class="fa-solid fa-list me-2"></i> Todos
+              </a></li>
+              <li type="button"><a class="dropdown-item" data-section="indefinido">
+                <i class="fa-solid fa-info-circle me-2"></i> Indefinido
+              </a></li>
+              <li type="button"><a class="dropdown-item" data-section="destacado">
+                <i class="fa-solid fa-star me-2"></i> Destacados
+              </a></li>
+              <li type="button"><a class="dropdown-item" data-section="nuevos">
+                <i class="fa-solid fa-newspaper me-2"></i> Nuevos Ingresos
+              </a></li>
+              <li type="button"><a class="dropdown-item" data-section="ofertas">
+                <i class="fa-solid fa-tag me-2"></i> Ofertas
+              </a></li>
+              <li type="button"><a class="dropdown-item" data-section="temporada">
+                <i class="fa-solid fa-calendar-alt me-2"></i> Temporada
+              </a></li>
+              <li type="button"><a class="dropdown-item" data-section="festividad">
+                <i class="fa-solid fa-glass-cheers me-2"></i> Festividad
+              </a></li>
+            </ul>
+          </div>
+
           <!-- BOTÓN STOCK -->
           <div class="dropdown w-full">
             <button class="btn btn-light border dropdown-toggle px-4 py-2 text-sm w-full btn-custom" type="button"
@@ -88,6 +120,7 @@
               <li><a class="dropdown-item" data-stock="all">
                   <i class="fa-solid fa-list me-2"></i> Todos</a>
               </li>
+              <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" data-stock="Disponible">
                   <i class="fa-solid fa-check-circle me-2"></i> Disponible</a>
               </li>
@@ -100,26 +133,21 @@
             </ul>
           </div>
 
-          <!-- BOTON ESTADO -->
-          <div class="dropdown w-full">
-            <button class="btn btn-light border dropdown-toggle px-4 py-2 text-sm w-full btn-custom" type="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fas fa-dot-circle me-2"></i> Ver Estado
+          <!-- BOTON REGISTRAR Y LISTA DE ACTIVOS INCATIVOS -->
+          <div class="btn-group">
+            <button  id="openModal" type="button" class="btn btn-light border w-full btn-custom">Registrar</button>
+            <button type="button" class="btn btn-light border  dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
+              <span class="visually-hidden">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu text-sm w-full">
               <li type="button"><a class="dropdown-item" onclick="fetchProducts('/active', 'Activos')">
-                  <i class="fas fa-toggle-on me-2"></i> Activos</a>
+                  <i class="fas fa-toggle-on me-2"></i>Ver Activos</a>
               </li>
               <li type="button"><a class="dropdown-item" onclick="fetchProducts('/inactive', 'Inactivos')">
-                  <i class="fas fa-toggle-off me-2"></i> Inactivos</a>
+                  <i class="fas fa-toggle-off me-2"></i>Ver Inactivos</a>
               </li>
             </ul>
           </div>
-
-          <!-- BOTON REGISTRO DE PRODUCTO -->
-          <button id="openModal" class="btn btn-light border  py-2 text-sm w-full btn-custom" type="button">
-            <i class="fas fa-plus me-2"></i> Registrar
-          </button>
 
         </div>
 
@@ -134,6 +162,7 @@
               <th class="px-4 py-2 table-with">Nombre</th>
               <th class="px-4 py-2 table-with">Marca</th>
               <th class="px-4 py-2 table-with">Categoría</th>
+              <th class="px-4 py-2 table-with">Section</th>
               <th class="px-4 py-2 table-with hidden md:table-cell">Precio Regular</th>
               <th class="px-4 py-2 table-with w-48">Precio Final</th>
               <th class="px-4 py-2 table-with">Stock</th>
@@ -218,6 +247,7 @@
         document.getElementById('previewName').value = product.name;
         document.getElementById('previewBrand').value = product.brand;
         document.getElementById('previewCategory').value = product.category;
+        document.getElementById('previewSection').value = product.section;
         document.getElementById('previewDescription').value = product.description;
         document.getElementById('previewPrice').value = product.price.toFixed(2);
         document.getElementById('previewPriceEnd').value = product.price_end.toFixed(2);
