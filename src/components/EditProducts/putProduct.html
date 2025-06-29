@@ -27,7 +27,7 @@
           <label class="form-label text-muted flex items-center mb-1">
             <i class="fas fa-briefcase ml-2 me-2"></i> Marca
           </label>
-          <input type="text" id="editBrand" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <input type="text" id="editBrand" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required>
         </div>
 
         <div class="mb-2 d-flex flex-column flex-md-row justify-content-between align-items-start">
@@ -68,37 +68,37 @@
 
         <div class="mb-2">
           <label class="form-label text-muted flex items-center mb-1">
-            <i class="fas fa-image ml-2 me-2"></i> Imagen
+            <i class="fas fa-upload ml-2 me-2"></i> Cambiar imagen
           </label>
-          <input type="text" id="editImage" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <input type="file" id="editImage" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
         </div>
 
         <div class="mb-2 md:col-span-2">
           <label class="form-label text-muted flex items-center mb-1">
             <i class="fas fa-align-left ml-2 me-2"></i> Descripción
           </label>
-          <textarea id="editDescription" rows="3" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"></textarea>
+          <textarea id="editDescription" rows="3" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required></textarea>
         </div>
 
         <div class="mb-2">
           <label class="form-label text-muted flex items-center mb-1">
             <i class="fas fa-dollar-sign ml-2 me-2"></i> Precio Regular
           </label>
-          <input type="number" step="0.01" id="editPrice" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <input type="number" step="0.5" min="0" id="editPrice" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required>
         </div>
 
         <div class="mb-2">
           <label class="form-label text-muted flex items-center mb-1">
             <i class="fas fa-money-bill ml-2 me-2"></i> Precio Final
           </label>
-          <input type="number" step="0.01" id="editPriceEnd" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <input type="number" step="0.5" min="0" id="editPriceEnd" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required>
         </div>
 
         <div class="mb-2">
           <label class="form-label text-muted flex items-center mb-1">
             <i class="fas fa-boxes ml-2 me-2"></i> Stock
           </label>
-          <input type="number" id="editStock" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <input type="number" id="editStock" class="form-control w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" required>
         </div>
 
         <div class="mb-2">
@@ -139,7 +139,6 @@
     document.getElementById('editBrand').value = product.brand;
     document.getElementById('editCategory').value = product.category;
     document.getElementById('editSection').value = product.section;
-    document.getElementById('editImage').value = product.image;
     document.getElementById('editDescription').value = product.description;
     document.getElementById('editPrice').value = product.price;
     document.getElementById('editPriceEnd').value = product.price_end;
@@ -149,46 +148,83 @@
     // Mostrar modal (remueve la clase hidden y aplica flex)
     editProductModal.classList.remove('hidden');
     editProductModal.classList.add('flex');
+
+    // Desactivar scroll del fondo
+    document.body.style.overflow = 'hidden';
   }
 
   // Ocultar el modal (puede llamarse desde botón "Cancelar")
   function hideEditModal() {
     editProductModal.classList.add('hidden');
     editProductModal.classList.remove('flex');
+
+    // Restaurar scroll del fondo
+    document.body.style.overflow = 'auto';
   }
 
   // Evento al enviar el formulario
   document.getElementById('editProductForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    const confirm = await Swal.fire({
+      title: '¿Actualizar producto?',
+      text: '¿Estás seguro de que deseas guardar los cambios?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, actualizar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#aaa'
+    });
+
+    if (!confirm.isConfirmed) return;
+
     const id_product = document.getElementById('editProductId').value;
-    const updatedProduct = {
-      name: document.getElementById('editName').value,
-      brand: document.getElementById('editBrand').value,
-      category: document.getElementById('editCategory').value,
-      section: document.getElementById('editSection').value,
-      image: document.getElementById('editImage').value,
-      description: document.getElementById('editDescription').value,
-      price: parseFloat(document.getElementById('editPrice').value),
-      price_end: parseFloat(document.getElementById('editPriceEnd').value),
-      stock: parseInt(document.getElementById('editStock').value),
-      message_stock: document.getElementById('editMessageStock').value
-    };
+    const formData = new FormData();
+
+    formData.append('name', document.getElementById('editName').value);
+    formData.append('brand', document.getElementById('editBrand').value);
+    formData.append('category', document.getElementById('editCategory').value);
+    formData.append('section', document.getElementById('editSection').value);
+    formData.append('description', document.getElementById('editDescription').value);
+    formData.append('price', document.getElementById('editPrice').value);
+    formData.append('price_end', document.getElementById('editPriceEnd').value);
+    formData.append('stock', document.getElementById('editStock').value);
+    formData.append('message_stock', document.getElementById('editMessageStock').value);
+
+    // Solo si el usuario seleccionó una nueva imagen
+    const imageFile = document.getElementById('editImage').files[0];
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
 
     try {
       const res = await fetch(`${BASE_API_URL}/${id_product}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedProduct)
+        body: formData
       });
 
       if (!res.ok) throw new Error('Error al actualizar el producto');
 
       await fetchProducts(); // Refrescar lista
       hideEditModal();      // Cerrar modal
+
+      // SweetAlert2 éxito
+      Swal.fire({
+        icon: 'success',
+        title: '¡Producto actualizado!',
+        text: 'Los datos del producto se actualizaron correctamente.',
+        confirmButtonColor: '#3085d6'
+      });
     } catch (error) {
       console.error(error);
-      alert('Hubo un problema al actualizar el producto');
+      // SweetAlert2 error
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al actualizar',
+        text: 'Hubo un problema al actualizar el producto.',
+        confirmButtonColor: '#d33'
+      });
     }
   });
 

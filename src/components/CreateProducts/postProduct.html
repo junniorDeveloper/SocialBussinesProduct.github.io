@@ -139,11 +139,17 @@
   // Este script corre al insertar el componente dinámicamente
   document.getElementById('openModal').addEventListener('click', function () {
     document.getElementById('modal').classList.remove('hidden');
+
+    // Desactivar scroll del fondo
+    document.body.style.overflow = 'hidden';
   });
 
   document.getElementById('closeModal').addEventListener('click', function () {
     document.getElementById('modal').classList.add('hidden');
     form.reset();
+
+    // Restaurar scroll del fondo
+    document.body.style.overflow = 'auto';
   });
 
 
@@ -163,15 +169,27 @@
       if (!response.ok) throw new Error('Error al registrar producto');
 
       const data = await response.json();
-      alert('Producto registrado con éxito');
-      console.log(data);
+      // SweetAlert de éxito
+      await Swal.fire({
+        icon: 'success',
+        title: '¡Producto registrado!',
+        text: 'El producto se registró correctamente.',
+        confirmButtonColor: '#3085d6'
+      });
 
       form.reset();
       document.getElementById('modal').classList.add('hidden');
       fetchProducts();
+
     } catch (error) {
       console.error(error);
-      alert('Hubo un error al registrar el producto');
+      // SweetAlert de error
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Hubo un problema al registrar el producto.',
+        confirmButtonColor: '#d33'
+      });
     }
   });
 
