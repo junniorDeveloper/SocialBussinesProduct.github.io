@@ -181,6 +181,9 @@
       document.getElementById('modal').classList.add('hidden');
       fetchProducts();
 
+      // Restaurar scroll del fondo
+      document.body.style.overflow = 'auto';
+
     } catch (error) {
       console.error(error);
       // SweetAlert de error
@@ -190,6 +193,9 @@
         text: 'Hubo un problema al registrar el producto.',
         confirmButtonColor: '#d33'
       });
+
+      // Restaurar scroll del fondo
+      document.body.style.overflow = 'auto';
     }
   });
 
